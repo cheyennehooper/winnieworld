@@ -2,6 +2,7 @@ import pygame
 import sys
 
 from player import Player
+from tilemap import TileMap
 
 #init game
 pygame.init()
@@ -16,10 +17,7 @@ WIDTH, HEIGHT = tile_size * tiles_x, tile_size * tiles_y
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("winnies world")
 
-#load winnie!
-winnie_img = pygame.image.load("assets/winnie.png")
-winnie_rect = winnie_img.get_rect(center=(WIDTH//2, HEIGHT//2))
-
+tilemap = TileMap()
 player = Player(tile_size//2, tile_size//2)
 
 #game loop
@@ -32,21 +30,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-
+    #game logic
     player.update()
 
-
-    #tile board temp
-    for row in range(tiles_y):
-        for col in range(tiles_x):
-            color = (158,207,141) if (row + col) % 2 == 0 else (109,185,102)
-            rect = pygame.Rect(col * tile_size, row * tile_size, tile_size, tile_size)
-            pygame.draw.rect(screen, color, rect)
-
-
-
-
     #drawing on screen
+    tilemap.draw(screen)
     player.draw(screen)
     pygame.display.flip()
 
