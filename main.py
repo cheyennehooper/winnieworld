@@ -1,6 +1,8 @@
 import pygame
 import sys
 
+from player import Player
+
 #init game
 pygame.init()
 
@@ -18,8 +20,7 @@ pygame.display.set_caption("winnies world")
 winnie_img = pygame.image.load("assets/winnie.png")
 winnie_rect = winnie_img.get_rect(center=(WIDTH//2, HEIGHT//2))
 
-#frame speed
-SPEED = 3
+player = Player(tile_size//2, tile_size//2)
 
 #game loop
 clock = pygame.time.Clock()
@@ -31,16 +32,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    #keymapping the motion
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        winnie_rect.x -= SPEED
-    if keys[pygame.K_RIGHT]:
-        winnie_rect.x += SPEED    
-    if keys[pygame.K_UP]:
-        winnie_rect.y -= SPEED
-    if keys[pygame.K_DOWN]:
-        winnie_rect.y += SPEED
+
+    player.update()
+
 
     #tile board temp
     for row in range(tiles_y):
@@ -53,7 +47,7 @@ while running:
 
 
     #drawing on screen
-    screen.blit(winnie_img, winnie_rect)
+    player.draw(screen)
     pygame.display.flip()
 
 #quit game
